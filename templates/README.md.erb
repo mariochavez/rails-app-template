@@ -19,24 +19,24 @@ Before running the application, ensure you have the following installed on your 
 
 ### Assumptions
 
-This application was setup with few configuration assumptions.
+This application was set up with few configuration assumptions.
 
-- ActiveStorage was setup and ready to use.
+- ActiveStorage was set up and ready to use.
     - S3 AWS gem was added but only for production.
     - Configure `config/storage.yml` properly.
     - Review `config/application.rb` for ActiveStorage proxy if need it.
-- ActionText was setup and ready to be use.
-- [ActionPolicy](https://actionpolicy.evilmartians.io/) was setup and ready to be use.
-<%= "- [Litestack](https://github.com/oldmoe/litestack) was setup. Review additional configuration options." if sqlite %>
-- [LetterOpener](https://github.com/ryanb/letter_opener) was setup for development.
-- Brakeman, Bundle Audit, and Standard were added for development. Also, `.solargraph.yml` configuration file along, `.rubocop.yml`, and `.standard.yml`.
-- [Lograge](https://github.com/roidrage/lograge) was added and setup for production.
-- [Rails I18n](https://github.com/svenfuchs/rails-i18n) gem was added, review configuration at `config/application.rb`
-- [Meta Tags](https://github.com/kpumuk/meta-tags) gem was added, review `config/initializers/meta_tags.rb` configuration, and set your own meta tags.
-<%= "- [tailwindcss-rails](https://github.com/rails/tailwindcss-rails) was added, it was setup with a default color scheme that can be used with `*-skin-{key}`, the keys and colors are defined at `app/assets/stylesheets/config.css` file." if tailwindcss %>
-- [Solid Queue](https://github.com/basecamp/solid_queue) gem was added and setup for production and development.
-  - When database is SQLite3, then a second database is setup for the queue (queue database), from now on you need to generate migrations with key `--database primary` and execute db commands with `:primary` append, example: `bin/rails db:migrate:primary`.
-  - [Mission Control-Jobs](https://github.com/basecamp/mission_control-jobs) was setup, review documentation to secure the `/jobs` endpoint.
+- ActionText was set up and ready to be use.
+- [ActionPolicy](https://actionpolicy.evilmartians.io/) was set up and ready to be used.
+<%= "- [Litestack](https://github.com/oldmoe/litestack) was set up. Review additional configuration options." if sqlite %>
+- [LetterOpener](https://github.com/ryanb/letter_opener) was set up for development.
+- Brakeman, Bundle Audit, and Standard were added for development. Also, `.solargraph.yml` configuration file along with `.rubocop.yml`, and `.standard.yml`.
+- [Lograge](https://github.com/roidrage/lograge) was added and set up for production.
+- [Rails I18n](https://github.com/svenfuchs/rails-i18n) gem was added; review configuration at `config/application.rb`
+- [Meta Tags](https://github.com/kpumuk/meta-tags) gem was added; review `config/initializers/meta_tags.rb` configuration, and set your meta tags.
+<%= "- [tailwindcss-rails](https://github.com/rails/tailwindcss-rails) was added, it was set up with a default color scheme that can be used with `*-skin-{key}`, the keys and colors are defined at `app/assets/stylesheets/config.css` file." if tailwindcss %>
+- [Solid Queue](https://github.com/basecamp/solid_queue) gem was added and set up for production and development.
+  - When database is SQLite3, then a second database is set up for the queue (queue database); from now on you need to generate migrations with key `--database primary` and execute db commands with `:primary` append, example: `bin/rails db:migrate:primary`.
+  - [Mission Control-Jobs](https://github.com/basecamp/mission_control-jobs) was set up, review documentation to secure the `/jobs` endpoint.
 - Rack Attack was setup an ready to use. Review Rack Attack's initializer for additional configuration.
 
 ### Recommendations
