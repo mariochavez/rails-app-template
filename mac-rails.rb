@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-source_paths.unshift(File.dirname(__FILE__) + '/templates')
+source_paths.unshift(File.dirname(__FILE__) + "/templates")
 
 tailwindcss = options[:css] == "tailwind"
 sqlite = options[:database] == "sqlite3"
@@ -53,57 +53,57 @@ puts "Application configuration"
 append_to_file(".gitignore", %(\n/config/database.yml\n))
 
 create_file ".standard.yml" do
-<<~EOF
-  fix: false              # default: false
-  parallel: true          # default: false
-  format: progress        # default: Standard::Formatter
-  ruby_version: 3.3.0     # default: RUBY_VERSION
-  default_ignores: false  # default: true
-  ignore:                 # default: []
-    - 'node_modules/**/*'
-    - 'db/migrate/**/*'
-    - 'db/schema.rb'
-    - 'bin/**/*'
-    - 'Gemfile'
-    - 'config/environments/**/*'
-    - 'config/application.rb'
-    - 'config/boot.rb'
-    - 'config/puma.rb'
-EOF
+  <<~EOF
+    fix: false              # default: false
+    parallel: true          # default: false
+    format: progress        # default: Standard::Formatter
+    ruby_version: 3.3.0     # default: RUBY_VERSION
+    default_ignores: false  # default: true
+    ignore:                 # default: []
+      - 'node_modules/**/*'
+      - 'db/migrate/**/*'
+      - 'db/schema.rb'
+      - 'bin/**/*'
+      - 'Gemfile'
+      - 'config/environments/**/*'
+      - 'config/application.rb'
+      - 'config/boot.rb'
+      - 'config/puma.rb'
+  EOF
 end
 
 create_file ".solargraph.yml" do
-<<~EOF
-  include:
-    - "**/*.rb"
-  exclude:
-    - spec/**/*
-    - test/**/*
-    - vendor/**/*
-    - ".bundle/**/*"
-  require:
-    - actioncable
-    - actionmailer
-    - actionpack
-    - actionview
-    - activejob
-    - activemodel
-    - activerecord
-    - activestorage
-    - activesupport
-  plugins:
-    - solargraph-rails
-  max_files: 5000
-EOF
+  <<~EOF
+    include:
+      - "**/*.rb"
+    exclude:
+      - spec/**/*
+      - test/**/*
+      - vendor/**/*
+      - ".bundle/**/*"
+    require:
+      - actioncable
+      - actionmailer
+      - actionpack
+      - actionview
+      - activejob
+      - activemodel
+      - activerecord
+      - activestorage
+      - activesupport
+    plugins:
+      - solargraph-rails
+    max_files: 5000
+  EOF
 end
 
-create_file ".rubobop.yml" do
-<<~EOF
-  require: standard
+create_file ".rubocop.yml" do
+  <<~EOF
+    require: standard
 
-  inherit_gem:
-    standard: config/base.yml
-EOF
+    inherit_gem:
+      standard: config/base.yml
+  EOF
 end
 
 remove_file "bin/setup"
@@ -166,59 +166,59 @@ end
 run "chmod +x bin/ci"
 
 initializer("generators.rb") do
-<<~EOF
-  Rails.application.config.generators do |g|
-    g.stylesheets false
-  end
-EOF
+  <<~EOF
+    Rails.application.config.generators do |g|
+      g.stylesheets false
+    end
+  EOF
 end
 
 initializer("lograge.rb") do
-<<~EOF
-  Rails.application.configure do
-    config.lograge.enabled = !Rails.env.development? || ENV["LOGRAGE_IN_DEVELOPMENT"] == "true"
-  end
-EOF
+  <<~EOF
+    Rails.application.configure do
+      config.lograge.enabled = !Rails.env.development? || ENV["LOGRAGE_IN_DEVELOPMENT"] == "true"
+    end
+  EOF
 end
 
 initializer("rack_attack.rb") do
-<<~EOF
-  Rack::Attack.enabled = !Rails.env.test?
+  <<~EOF
+    Rack::Attack.enabled = !Rails.env.test?
 
-  # Throttle requests from a single IP to 5 requests per second
-  Rack::Attack.throttle('req/ip', limit: 5, period: 1.second) do |req|
-    req.ip
-  end
+    # Throttle requests from a single IP to 5 requests per second
+    Rack::Attack.throttle('req/ip', limit: 5, period: 1.second) do |req|
+      req.ip
+    end
 
-  # Rack::Attack.throttle('limit logins per email', limit: 5, period: 1.minute) do |req|
-  #   if req.path == '/login' && req.post?
-  #     req.params['email']
-  #   end
-  # end
+    # Rack::Attack.throttle('limit logins per email', limit: 5, period: 1.minute) do |req|
+    #   if req.path == '/login' && req.post?
+    #     req.params['email']
+    #   end
+    # end
 
-  # Rack::Attack.blocklist("block script kidz") do |req|
-  #   CGI.unescape(req.query_string) =~ %r{/etc/passwd} ||
-  #   req.path.include?("/etc/passwd") ||
-  #   req.path.include?("wp-admin") ||
-  #   req.path.include?("wp-login")
-  # end
-EOF
+    # Rack::Attack.blocklist("block script kidz") do |req|
+    #   CGI.unescape(req.query_string) =~ %r{/etc/passwd} ||
+    #   req.path.include?("/etc/passwd") ||
+    #   req.path.include?("wp-admin") ||
+    #   req.path.include?("wp-login")
+    # end
+  EOF
 end
 
 environment(nil, env: "development") do
-<<~EOF
-  # Letter opener configuration
-  config.default_url_options = { host: "localhost:#{port}" }
-  config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.perform_deliveries = true
-EOF
+  <<~EOF
+    # Letter opener configuration
+    config.default_url_options = { host: "localhost:#{port}" }
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.perform_deliveries = true
+  EOF
 end
 
 environment(nil, env: "production") do
-<<~EOF
-  # Update this value with real domain name
-  config.default_url_options = { host: ENV.fetch("APPLICATION_HOST") }
-EOF
+  <<~EOF
+    # Update this value with real domain name
+    config.default_url_options = { host: ENV.fetch("APPLICATION_HOST") }
+  EOF
 end
 insert_into_file "config/application.rb", after: '    # config.time_zone = "Central Time (US & Canada)"' do
   "\n    # Configure your locales.\n    # config.i18n.available_locales = :es\n    # config.i18n.default_locale = :es\n"
@@ -229,7 +229,7 @@ insert_into_file "config/application.rb", after: '    # config.eager_load_paths 
 end
 
 insert_into_file "config/application.rb", before: "  end" do
-<<EOF
+  <<EOF
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag.html_safe }
 
     unless Rails.env.test?
@@ -300,7 +300,7 @@ after_bundle do
 
   if tailwindcss
     insert_into_file "config/tailwind.config.js", before: "      fontFamily: {" do
-    <<~EOF
+      <<~EOF
         textColor: {
           skin: {
             inverted: 'rgb(var(--color-inverted) / <alpha-value>)',
@@ -347,32 +347,32 @@ after_bundle do
             accented: 'rgb(var(--color-border-accented) / <alpha-value>)'
           }
         },
-    EOF
+      EOF
     end
 
     create_file "app/assets/stylesheets/config.css" do
-    <<~EOF
-      :root {
-        --color-base: 15 23 42;
-        --color-accented: 244 63 94;
-        --color-accented-hover: 190 18 60;
-        --color-inverted: 255 255 255;
-        --color-muted: 55 65 81;
-        --color-dimmed: 75 85 99;
-        --color-error: 220 38 38;
-        --color-error-hover: 185 28 28;
-        --color-alternate: 249 115 22;
-        --color-alternate-1: 230 242 251;
-        --color-alternate-2: 2 63 109;
+      <<~EOF
+        :root {
+          --color-base: 15 23 42;
+          --color-accented: 244 63 94;
+          --color-accented-hover: 190 18 60;
+          --color-inverted: 255 255 255;
+          --color-muted: 55 65 81;
+          --color-dimmed: 75 85 99;
+          --color-error: 220 38 38;
+          --color-error-hover: 185 28 28;
+          --color-alternate: 249 115 22;
+          --color-alternate-1: 230 242 251;
+          --color-alternate-2: 2 63 109;
 
-        --color-border-base: 209 213 219;
-        --color-border-accented: 244 63 94;
-      }
+          --color-border-base: 209 213 219;
+          --color-border-accented: 244 63 94;
+        }
 
-      body {
-        @apply font-sans antialiased;
-      }
-    EOF
+        body {
+          @apply font-sans antialiased;
+        }
+      EOF
     end
 
     insert_into_file "app/assets/stylesheets/application.tailwind.css", after: "@tailwind base;" do
@@ -397,7 +397,7 @@ rendered_content = ERB.new(erb_readme_template).result(binding)
 
 create_file "README.md", rendered_content, force: true
 
-copy_file "home_controller.rb", "app/controller/home_controller.rb"
+copy_file "home_controller.rb", "app/controllers/home_controller.rb"
 run("mkdir app/views/home")
 copy_file "index.html.erb", "app/views/home/index.html.erb"
 
